@@ -92,6 +92,9 @@
             overflow: hidden;
             margin-top: 0;
             background: rgba(0,0,0,0.02);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .slider-container {
@@ -105,47 +108,26 @@
 
         .slide-item {
             position: absolute;
+            width: 44%;
+            padding-top: 24.75%;
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             border-radius: 16px;
             box-shadow: 0 8px 28px rgba(40, 80, 120, 0.18);
-            transition: transform 0.75s cubic-bezier(0.42, 0, 0.58, 1),
-                        width 0.75s cubic-bezier(0.42, 0, 0.58, 1),
-                        padding-top 0.75s cubic-bezier(0.42, 0, 0.58, 1),
-                        left 0.75s cubic-bezier(0.42, 0, 0.58, 1),
+            /* 为 transform 和 opacity 设置过渡 */
+            transition: transform 0.7s cubic-bezier(0.42, 0, 0.58, 1),
                         opacity 0.45s ease;
-            will-change: transform, left, width, padding-top;
+            will-change: transform, opacity;
+            /* 初始无过渡，由JS控制 */
         }
 
-        .slide-item.left {
-            width: 30%;
-            padding-top: 16.875%;
-            left: 2%;
-            top: 50%;
-            transform: translateY(-50%);
-            z-index: 2;
+        /* 默认不透明度 */
+        .slide-item {
             opacity: 0.65;
         }
-
-        .slide-item.center {
-            width: 44%;
-            padding-top: 24.75%;
-            left: 28%;
-            top: 50%;
-            transform: translateY(-50%);
-            z-index: 3;
+        .slide-item.center-active {
             opacity: 1;
-        }
-
-        .slide-item.right {
-            width: 30%;
-            padding-top: 16.875%;
-            left: 68%;
-            top: 50%;
-            transform: translateY(-50%);
-            z-index: 2;
-            opacity: 0.65;
         }
 
         .arrow {
@@ -282,20 +264,9 @@
             .banner {
                 height: 320px;
             }
-            .slide-item.left {
-                width: 28%;
-                padding-top: 15.75%;
-                left: 1%;
-            }
-            .slide-item.center {
-                width: 42%;
-                padding-top: 23.625%;
-                left: 29%;
-            }
-            .slide-item.right {
-                width: 28%;
-                padding-top: 15.75%;
-                left: 71%;
+            .slide-item {
+                width: 46%;
+                padding-top: 25.875%;
             }
             .arrow {
                 width: 36px;
@@ -337,9 +308,9 @@
 
     <div class="banner" id="banner">
         <div class="slider-container">
-            <div class="slide-item left" id="slideLeft"></div>
-            <div class="slide-item center" id="slideCenter"></div>
-            <div class="slide-item right" id="slideRight"></div>
+            <div class="slide-item" id="slideLeft"></div>
+            <div class="slide-item" id="slideCenter"></div>
+            <div class="slide-item" id="slideRight"></div>
         </div>
         <button class="arrow arrow-left" id="prevBtn">‹</button>
         <button class="arrow arrow-right" id="nextBtn">›</button>
@@ -387,11 +358,33 @@
             const autoInterval = 6000;
             const pauseAfterManual = 10000;
 
+            // 定义三张卡片的位置与缩放配置（基于百分比）
+            const positions = {
+                left: { transform: 'translateX(-52%) scale(0.68)', opacity: '0.65' },
+                center: { transform: 'translateX(0) scale(1)', opacity: '1' },
+                right: { transform: 'translateX(52%) scale(0.68)', opacity: '0.65' }
+            };
+
+            // 应用样式到卡片，支持瞬间无动画（用于初始化）
+            function applyStyle(el, styleObj, instant = false) {
+                if (instant) {
+                    el.style.transition = 'none';
+                } else {
+                    el.style.transition = '';
+                }
+                el.style.transform = styleObj.transform;
+                el.style.opacity = styleObj.opacity;
+                // 如果需要触发回流，可以用 void el.offsetWidth
+                if (instant) {
+                    void el.offsetWidth; // 强制重绘，确保 transition:none 生效
+                }
+            }
+
             function setBg(el, imgSrc) {
                 el.style.backgroundImage = `url('${imgSrc}')`;
             }
 
-            function updateSlides() {
+            function updateSlides(instant = false) {
                 const leftIdx = (currentIndex - 1 + total) % total;
                 const centerIdx = currentIndex;
                 const rightIdx = (currentIndex + 1) % total;
@@ -400,14 +393,30 @@
                 setBg(slideCenter, images[centerIdx]);
                 setBg(slideRight, images[rightIdx]);
 
-                slideLeft.className = 'slide-item left';
-                slideCenter.className = 'slide-item center';
-                slideRight.className = 'slide-item right';
+                // 应用位置样式
+                applyStyle(slideLeft, positions.left, instant);
+                applyStyle(slideCenter, positions.center, instant);
+                applyStyle(slideRight, positions.right, instant);
+
+                // 移除所有 center-active 类，再添加到当前中心卡片
+                slideLeft.classList.remove('center-active');
+                slideCenter.classList.remove('center-active');
+                slideRight.classList.remove('center-active');
+                slideCenter.classList.add('center-active');
             }
+
+            // 初始化：瞬间就位，无动画
+            updateSlides(true);
+            // 短暂延迟后，恢复过渡（以便后续自动切换有动画）
+            setTimeout(() => {
+                slideLeft.style.transition = '';
+                slideCenter.style.transition = '';
+                slideRight.style.transition = '';
+            }, 50);
 
             function nextSlide() {
                 currentIndex = (currentIndex + 1) % total;
-                updateSlides();
+                updateSlides(); // 带过渡动画
             }
 
             function prevSlide() {
@@ -450,7 +459,7 @@
             prevBtn.addEventListener('click', () => handleManual('prev'));
             nextBtn.addEventListener('click', () => handleManual('next'));
 
-            updateSlides();
+            // 开始自动播放（初始化后已恢复过渡，直接开始）
             startAuto();
         })();
     </script>

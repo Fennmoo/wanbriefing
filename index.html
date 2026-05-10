@@ -69,31 +69,102 @@
 
         .banner {
             width: 100%;
-            height: 300px;
+            height: 500px;
             position: relative;
             overflow: hidden;
             margin-top: 0;
+            background: rgba(0,0,0,0.02);
         }
 
         .slider-container {
-            position: absolute;
-            top: 0;
-            left: 0;
+            position: relative;
             width: 100%;
             height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .slide {
+        .slide-item {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            will-change: transform;
+            border-radius: 16px;
+            box-shadow: 0 8px 28px rgba(40, 80, 120, 0.18);
+            transition: transform 0.65s cubic-bezier(0.23, 1, 0.32, 1),
+                        width 0.65s cubic-bezier(0.23, 1, 0.32, 1),
+                        padding-top 0.65s cubic-bezier(0.23, 1, 0.32, 1),
+                        left 0.65s cubic-bezier(0.23, 1, 0.32, 1),
+                        opacity 0.5s ease;
+            will-change: transform, left, width, padding-top;
+        }
+
+        .slide-item.left {
+            width: 42%;
+            padding-top: 23.625%;
+            left: 4%;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 2;
+            opacity: 0.7;
+        }
+
+        .slide-item.center {
+            width: 62%;
+            padding-top: 34.875%;
+            left: 19%;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 3;
+            opacity: 1;
+        }
+
+        .slide-item.right {
+            width: 42%;
+            padding-top: 23.625%;
+            left: 54%;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 2;
+            opacity: 0.7;
+        }
+
+        .arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 44px;
+            height: 44px;
+            background: rgba(255,255,255,0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: none;
+            border-radius: 50%;
+            box-shadow: 0 4px 14px rgba(78, 136, 180, 0.15);
+            font-size: 1.6rem;
+            color: #2c6080;
+            cursor: pointer;
+            z-index: 20;
+            transition: background 0.25s, transform 0.2s, box-shadow 0.25s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+        }
+
+        .arrow:hover {
+            background: rgba(255,255,255,0.9);
+            box-shadow: 0 6px 20px rgba(78, 136, 180, 0.25);
+            transform: translateY(-50%) scale(1.05);
+        }
+
+        .arrow-left {
+            left: 20px;
+        }
+
+        .arrow-right {
+            right: 20px;
         }
 
         .banner::after {
@@ -102,10 +173,10 @@
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 60px;
-            background: linear-gradient(to bottom, transparent, rgba(232, 244, 248, 0.7));
+            height: 50px;
+            background: linear-gradient(to bottom, transparent, rgba(232, 244, 248, 0.5));
             pointer-events: none;
-            z-index: 2;
+            z-index: 15;
         }
 
         .logo-link {
@@ -114,7 +185,7 @@
             left: 20px;
             display: inline-block;
             text-decoration: none;
-            z-index: 10;
+            z-index: 30;
         }
 
         .logo-link img {
@@ -191,23 +262,41 @@
             opacity: 0.85;
         }
 
-        @media (max-width: 600px) {
+        @media (max-width: 700px) {
             body {
                 padding-top: 120px;
             }
-            .top-nav {
-                gap: 10px;
-                padding: 12px 10px;
-            }
-            .top-nav a {
-                font-size: 0.9rem;
-                padding: 6px 14px;
-            }
             .banner {
-                height: 200px;
+                height: 380px;
+            }
+            .slide-item.left {
+                width: 38%;
+                padding-top: 21.375%;
+                left: 2%;
+            }
+            .slide-item.center {
+                width: 56%;
+                padding-top: 31.5%;
+                left: 22%;
+            }
+            .slide-item.right {
+                width: 38%;
+                padding-top: 21.375%;
+                left: 60%;
             }
             .logo-link img {
                 width: 180px;
+            }
+            .arrow {
+                width: 36px;
+                height: 36px;
+                font-size: 1.3rem;
+            }
+            .arrow-left {
+                left: 8px;
+            }
+            .arrow-right {
+                right: 8px;
             }
             .module {
                 margin: 20px 12px;
@@ -232,7 +321,13 @@
     </nav>
 
     <div class="banner" id="banner">
-        <div class="slider-container" id="sliderContainer"></div>
+        <div class="slider-container">
+            <div class="slide-item left" id="slideLeft"></div>
+            <div class="slide-item center" id="slideCenter"></div>
+            <div class="slide-item right" id="slideRight"></div>
+        </div>
+        <button class="arrow arrow-left" id="prevBtn">‹</button>
+        <button class="arrow arrow-right" id="nextBtn">›</button>
         <a href="https://fennmoo.github.io/wanbriefing/" class="logo-link">
             <img src="wanshuigaoshilan.png" alt="湾水集团图片">
         </a>
@@ -266,56 +361,85 @@
                 'background2.png',
                 'background3.png'
             ];
-            const container = document.getElementById('sliderContainer');
+            const total = images.length;
 
-            const slide1 = document.createElement('div');
-            const slide2 = document.createElement('div');
-            slide1.className = 'slide';
-            slide2.className = 'slide';
-            container.appendChild(slide1);
-            container.appendChild(slide2);
+            const slideLeft = document.getElementById('slideLeft');
+            const slideCenter = document.getElementById('slideCenter');
+            const slideRight = document.getElementById('slideRight');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
 
             let currentIndex = 0;
-            let activeSlide = slide1;
-            let nextSlide = slide2;
+            let autoTimer = null;
+            let pauseTimer = null;
+            const autoInterval = 6000;
+            const pauseAfterManual = 10000;
 
-            function setSlideBackground(slide, imgSrc) {
-                slide.style.backgroundImage = `url('${imgSrc}')`;
+            function setBg(el, imgSrc) {
+                el.style.backgroundImage = `url('${imgSrc}')`;
             }
 
-            setSlideBackground(activeSlide, images[0]);
-            activeSlide.style.transform = 'translateX(0)';
+            function updateSlides() {
+                const leftIdx = (currentIndex - 1 + total) % total;
+                const centerIdx = currentIndex;
+                const rightIdx = (currentIndex + 1) % total;
 
-            let nextImageIndex = (currentIndex + 1) % images.length;
-            setSlideBackground(nextSlide, images[nextImageIndex]);
-            nextSlide.style.transform = 'translateX(100%)';
+                setBg(slideLeft, images[leftIdx]);
+                setBg(slideCenter, images[centerIdx]);
+                setBg(slideRight, images[rightIdx]);
 
-            function slideToNext() {
-                activeSlide.style.transform = 'translateX(-100%)';
-                nextSlide.style.transform = 'translateX(0)';
-
-                const onTransitionEnd = () => {
-                    activeSlide.removeEventListener('transitionend', onTransitionEnd);
-
-                    activeSlide.style.transition = 'none';
-                    activeSlide.style.transform = 'translateX(100%)';
-
-                    currentIndex = (currentIndex + 1) % images.length;
-                    const newNextIndex = (currentIndex + 1) % images.length;
-
-                    setSlideBackground(activeSlide, images[newNextIndex]);
-
-                    void activeSlide.offsetWidth;
-
-                    activeSlide.style.transition = '';
-
-                    [activeSlide, nextSlide] = [nextSlide, activeSlide];
-                };
-
-                activeSlide.addEventListener('transitionend', onTransitionEnd);
+                slideLeft.className = 'slide-item left';
+                slideCenter.className = 'slide-item center';
+                slideRight.className = 'slide-item right';
             }
 
-            setInterval(slideToNext, 4000);
+            function nextSlide() {
+                currentIndex = (currentIndex + 1) % total;
+                updateSlides();
+            }
+
+            function prevSlide() {
+                currentIndex = (currentIndex - 1 + total) % total;
+                updateSlides();
+            }
+
+            function startAuto() {
+                stopAuto();
+                autoTimer = setInterval(nextSlide, autoInterval);
+            }
+
+            function stopAuto() {
+                if (autoTimer) {
+                    clearInterval(autoTimer);
+                    autoTimer = null;
+                }
+            }
+
+            function resetPause() {
+                if (pauseTimer) {
+                    clearTimeout(pauseTimer);
+                }
+                stopAuto();
+                pauseTimer = setTimeout(() => {
+                    pauseTimer = null;
+                    startAuto();
+                }, pauseAfterManual);
+            }
+
+            function handleManual(direction) {
+                if (direction === 'next') {
+                    nextSlide();
+                } else {
+                    prevSlide();
+                }
+                resetPause();
+            }
+
+            prevBtn.addEventListener('click', () => handleManual('prev'));
+            nextBtn.addEventListener('click', () => handleManual('next'));
+
+            updateSlides();
+            startAuto();
         })();
     </script>
 

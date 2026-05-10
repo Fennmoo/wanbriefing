@@ -5,16 +5,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>湾水告示栏 - 内容管理</title>
+    <!-- 字体：与 index.html 保持一致 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        /* ========== 基础重置 ========== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        /* ========== 全局样式 ========== */
         body {
             font-family: -apple-system, 'SF Pro Display', 'SF Pro Text', 'PingFang SC', 'Inter', 'Noto Sans SC', 'Helvetica Neue', 'Microsoft YaHei', sans-serif;
             background: linear-gradient(135deg, #e8f4f8 0%, #dceef5 30%, #e3f0f8 60%, #eaf3fa 100%);
@@ -24,11 +27,13 @@
             padding: 40px 20px;
         }
 
+        /* ========== 管理后台容器 ========== */
         .admin-container {
             max-width: 720px;
             margin: 0 auto;
         }
 
+        /* ========== 页头 ========== */
         .admin-header {
             text-align: center;
             margin-bottom: 30px;
@@ -54,6 +59,7 @@
             text-decoration: underline;
         }
 
+        /* ========== 卡片样式（与 index.html 毛玻璃风格一致）========== */
         .admin-card {
             background: rgba(255, 255, 255, 0.82);
             backdrop-filter: blur(6px);
@@ -72,6 +78,7 @@
             border-bottom: 2px dashed #b8d8ec;
         }
 
+        /* ========== 表单样式 ========== */
         .form-group {
             margin-bottom: 16px;
         }
@@ -115,6 +122,7 @@
             margin-top: 4px;
         }
 
+        /* ========== 按钮样式 ========== */
         .btn-row {
             display: flex;
             gap: 12px;
@@ -133,6 +141,7 @@
             font-family: inherit;
         }
 
+        /* 主按钮（保存） */
         .btn-primary {
             background: linear-gradient(135deg, #6db3d4, #8ecae6);
             color: #fff;
@@ -143,6 +152,7 @@
             transform: translateY(-1px);
         }
 
+        /* 危险按钮（重置） */
         .btn-danger {
             background: rgba(224, 96, 96, 0.12);
             color: #c05050;
@@ -152,6 +162,7 @@
             background: rgba(224, 96, 96, 0.2);
         }
 
+        /* 次要按钮（预览） */
         .btn-secondary {
             background: rgba(78, 136, 180, 0.1);
             color: #2c6080;
@@ -161,6 +172,7 @@
             background: rgba(78, 136, 180, 0.18);
         }
 
+        /* ========== 登录遮罩层 ========== */
         .login-overlay {
             position: fixed;
             top: 0;
@@ -175,6 +187,7 @@
             z-index: 1000;
         }
 
+        /* 登录弹窗 */
         .login-box {
             background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(6px);
@@ -222,6 +235,7 @@
             display: none;
         }
 
+        /* ========== Toast 提示 ========== */
         .toast {
             position: fixed;
             top: 20px;
@@ -243,18 +257,17 @@
             transform: translateX(-50%) translateY(0);
         }
 
+        /* ========== 响应式布局（移动端 ≤700px）========== */
         @media (max-width: 700px) {
-            body {
-                padding: 20px 12px;
-            }
-            .admin-card {
-                padding: 22px 18px;
-            }
+            body { padding: 20px 12px; }
+            .admin-card { padding: 22px 18px; }
         }
     </style>
 </head>
 <body>
 
+    <!-- ========== 登录遮罩 ========== -->
+    <!-- 密码验证通过后隐藏，显示管理面板 -->
     <div class="login-overlay" id="loginOverlay">
         <div class="login-box">
             <h2>管理后台</h2>
@@ -265,12 +278,15 @@
         </div>
     </div>
 
+    <!-- ========== 管理面板 ========== -->
+    <!-- 登录成功后显示，包含所有可编辑字段 -->
     <div class="admin-container" id="adminPanel" style="display:none;">
         <div class="admin-header">
             <h1>内容管理后台</h1>
             <p><a href="index.html">← 返回告示栏</a></p>
         </div>
 
+        <!-- 欢迎标题编辑卡片 -->
         <div class="admin-card">
             <h2>欢迎标题</h2>
             <div class="form-group">
@@ -283,6 +299,7 @@
             </div>
         </div>
 
+        <!-- 地铁告示栏编辑卡片 -->
         <div class="admin-card">
             <h2>地铁告示栏</h2>
             <div class="form-group">
@@ -295,6 +312,7 @@
             </div>
         </div>
 
+        <!-- 公交告示栏编辑卡片 -->
         <div class="admin-card">
             <h2>公交告示栏</h2>
             <div class="form-group">
@@ -307,6 +325,7 @@
             </div>
         </div>
 
+        <!-- 轮播图片编辑卡片 -->
         <div class="admin-card">
             <h2>轮播图片</h2>
             <div class="form-group">
@@ -324,6 +343,7 @@
             </div>
         </div>
 
+        <!-- 操作按钮 -->
         <div class="btn-row">
             <button class="btn btn-primary" id="saveBtn">保存修改</button>
             <button class="btn btn-secondary" id="previewBtn">预览效果</button>
@@ -331,13 +351,21 @@
         </div>
     </div>
 
+    <!-- Toast 提示组件 -->
     <div class="toast" id="toast"></div>
 
+    <!-- ========== 管理后台脚本 ========== -->
+    <!-- 功能：密码验证、表单填充、保存到 localStorage、预览、重置 -->
     <script>
         (function() {
+            // ---- 配置 ----
+            // 管理密码（修改此处可更改后台密码）
             var ADMIN_PASSWORD = 'wanshui2026';
+            // localStorage 存储键名（需与 index.html 一致）
             var STORAGE_KEY = 'wanbriefing_content';
 
+            // ---- 默认值 ----
+            // 重置时恢复的默认内容
             var defaults = {
                 welcomeTitle: '欢迎来到湾水告示栏',
                 welcomeTitleEn: 'Welcome to the Wanshui Briefing',
@@ -350,6 +378,7 @@
                 banner3: 'background3.png'
             };
 
+            // ---- DOM 元素引用 ----
             var loginOverlay = document.getElementById('loginOverlay');
             var loginPassword = document.getElementById('loginPassword');
             var loginBtn = document.getElementById('loginBtn');
@@ -357,6 +386,7 @@
             var adminPanel = document.getElementById('adminPanel');
             var toast = document.getElementById('toast');
 
+            // ---- Toast 提示 ----
             function showToast(msg) {
                 toast.textContent = msg;
                 toast.classList.add('show');
@@ -365,6 +395,7 @@
                 }, 2500);
             }
 
+            // ---- 从 localStorage 读取数据 ----
             function loadData() {
                 var saved = localStorage.getItem(STORAGE_KEY);
                 if (saved) {
@@ -377,6 +408,7 @@
                 return {};
             }
 
+            // ---- 填充表单（合并 localStorage 数据与默认值）----
             function populateForm() {
                 var data = loadData();
                 var merged = {};
@@ -394,6 +426,7 @@
                 document.getElementById('banner3').value = merged.banner3;
             }
 
+            // ---- 登录验证 ----
             function handleLogin() {
                 var pwd = loginPassword.value;
                 if (pwd === ADMIN_PASSWORD) {
@@ -412,6 +445,7 @@
                 if (e.key === 'Enter') handleLogin();
             });
 
+            // ---- 保存修改到 localStorage ----
             document.getElementById('saveBtn').addEventListener('click', function() {
                 var data = {
                     welcomeTitle: document.getElementById('welcomeTitle').value,
@@ -428,11 +462,13 @@
                 showToast('保存成功！');
             });
 
+            // ---- 预览效果（先保存再打开 index.html）----
             document.getElementById('previewBtn').addEventListener('click', function() {
                 document.getElementById('saveBtn').click();
                 window.open('index.html', '_blank');
             });
 
+            // ---- 重置为默认内容 ----
             document.getElementById('resetBtn').addEventListener('click', function() {
                 if (confirm('确定要重置为默认内容吗？')) {
                     localStorage.removeItem(STORAGE_KEY);
@@ -441,6 +477,7 @@
                 }
             });
 
+            // 自动聚焦密码输入框
             loginPassword.focus();
         })();
     </script>

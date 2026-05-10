@@ -36,20 +36,40 @@
             box-shadow: 0 2px 24px rgba(78, 136, 180, 0.12),
                         inset 0 0 0 1px rgba(255, 255, 255, 0.6);
             display: flex;
-            justify-content: center;
-            gap: 28px;
-            padding: 14px 20px;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 28px;
             z-index: 1000;
             flex-wrap: wrap;
             border-bottom: 1px solid rgba(160, 200, 230, 0.2);
         }
 
-        .top-nav a {
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .nav-logo img {
+            width: 140px;
+            height: auto;
+            display: block;
+            filter: drop-shadow(0 2px 6px rgba(40, 80, 110, 0.2));
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        .nav-links a {
             text-decoration: none;
             color: #3a6d8c;
             font-weight: 500;
-            font-size: 1rem;
-            padding: 8px 18px;
+            font-size: 0.95rem;
+            padding: 7px 16px;
             border-radius: 20px;
             transition: all 0.25s ease;
             letter-spacing: 0.02em;
@@ -58,18 +78,16 @@
             background: rgba(255, 255, 255, 0.3);
         }
 
-        .top-nav a:hover {
+        .nav-links a:hover {
             background: linear-gradient(135deg, #6db3d4, #8ecae6);
             color: #fff;
             box-shadow: 0 4px 14px rgba(90, 156, 197, 0.35);
             transform: translateY(-1px);
-            backdrop-filter: blur(0px);
-            -webkit-backdrop-filter: blur(0px);
         }
 
         .banner {
             width: 100%;
-            height: 460px;
+            height: 420px;
             position: relative;
             overflow: hidden;
             margin-top: 0;
@@ -92,31 +110,28 @@
             background-repeat: no-repeat;
             border-radius: 16px;
             box-shadow: 0 8px 28px rgba(40, 80, 120, 0.18);
-            /* 过渡更丝滑：统一使用ease-in-out曲线，时长0.8s */
-            transition: transform 0.8s cubic-bezier(0.42, 0, 0.58, 1),
-                        width 0.8s cubic-bezier(0.42, 0, 0.58, 1),
-                        padding-top 0.8s cubic-bezier(0.42, 0, 0.58, 1),
-                        left 0.8s cubic-bezier(0.42, 0, 0.58, 1),
-                        opacity 0.5s ease;
+            transition: transform 0.75s cubic-bezier(0.42, 0, 0.58, 1),
+                        width 0.75s cubic-bezier(0.42, 0, 0.58, 1),
+                        padding-top 0.75s cubic-bezier(0.42, 0, 0.58, 1),
+                        left 0.75s cubic-bezier(0.42, 0, 0.58, 1),
+                        opacity 0.45s ease;
             will-change: transform, left, width, padding-top;
         }
 
-        /* 两侧小卡片：35%宽，保持16:9 */
         .slide-item.left {
-            width: 35%;
-            padding-top: 19.6875%;   /* 35% * 9/16 */
-            left: 3%;
+            width: 30%;
+            padding-top: 16.875%;
+            left: 2%;
             top: 50%;
             transform: translateY(-50%);
             z-index: 2;
-            opacity: 0.7;
+            opacity: 0.65;
         }
 
-        /* 中间大卡片：55%宽，保持16:9 */
         .slide-item.center {
-            width: 55%;
-            padding-top: 30.9375%;   /* 55% * 9/16 */
-            left: 22.5%;
+            width: 44%;
+            padding-top: 24.75%;
+            left: 28%;
             top: 50%;
             transform: translateY(-50%);
             z-index: 3;
@@ -124,13 +139,13 @@
         }
 
         .slide-item.right {
-            width: 35%;
-            padding-top: 19.6875%;
-            left: 62%;
+            width: 30%;
+            padding-top: 16.875%;
+            left: 68%;
             top: 50%;
             transform: translateY(-50%);
             z-index: 2;
-            opacity: 0.7;
+            opacity: 0.65;
         }
 
         .arrow {
@@ -163,11 +178,11 @@
         }
 
         .arrow-left {
-            left: 20px;
+            left: 12px;
         }
 
         .arrow-right {
-            right: 20px;
+            right: 12px;
         }
 
         .banner::after {
@@ -180,22 +195,6 @@
             background: linear-gradient(to bottom, transparent, rgba(232, 244, 248, 0.5));
             pointer-events: none;
             z-index: 15;
-        }
-
-        .logo-link {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            display: inline-block;
-            text-decoration: none;
-            z-index: 30;
-        }
-
-        .logo-link img {
-            width: 280px;
-            height: auto;
-            display: block;
-            filter: drop-shadow(0 2px 8px rgba(40, 80, 110, 0.25));
         }
 
         .module {
@@ -267,28 +266,36 @@
 
         @media (max-width: 700px) {
             body {
-                padding-top: 120px;
+                padding-top: 110px;
+            }
+            .top-nav {
+                padding: 10px 16px;
+                gap: 10px;
+            }
+            .nav-logo img {
+                width: 110px;
+            }
+            .nav-links a {
+                font-size: 0.85rem;
+                padding: 5px 12px;
             }
             .banner {
-                height: 380px;
+                height: 320px;
             }
             .slide-item.left {
-                width: 32%;
-                padding-top: 18%;
-                left: 2%;
+                width: 28%;
+                padding-top: 15.75%;
+                left: 1%;
             }
             .slide-item.center {
-                width: 50%;
-                padding-top: 28.125%;
-                left: 25%;
+                width: 42%;
+                padding-top: 23.625%;
+                left: 29%;
             }
             .slide-item.right {
-                width: 32%;
-                padding-top: 18%;
-                left: 66%;
-            }
-            .logo-link img {
-                width: 180px;
+                width: 28%;
+                padding-top: 15.75%;
+                left: 71%;
             }
             .arrow {
                 width: 36px;
@@ -296,10 +303,10 @@
                 font-size: 1.3rem;
             }
             .arrow-left {
-                left: 8px;
+                left: 6px;
             }
             .arrow-right {
-                right: 8px;
+                right: 6px;
             }
             .module {
                 margin: 20px 12px;
@@ -318,9 +325,14 @@
 <body>
 
     <nav class="top-nav">
-        <a href="#welcome">欢迎标题</a>
-        <a href="#subway">地铁告示栏</a>
-        <a href="#bus">公交告示栏</a>
+        <a href="https://fennmoo.github.io/wanbriefing/" class="nav-logo">
+            <img src="wanshuigaoshilan.png" alt="湾水集团图片">
+        </a>
+        <div class="nav-links">
+            <a href="#welcome">欢迎标题</a>
+            <a href="#subway">地铁告示栏</a>
+            <a href="#bus">公交告示栏</a>
+        </div>
     </nav>
 
     <div class="banner" id="banner">
@@ -331,9 +343,6 @@
         </div>
         <button class="arrow arrow-left" id="prevBtn">‹</button>
         <button class="arrow arrow-right" id="nextBtn">›</button>
-        <a href="https://fennmoo.github.io/wanbriefing/" class="logo-link">
-            <img src="wanshuigaoshilan.png" alt="湾水集团图片">
-        </a>
     </div>
 
     <div class="module title-module" id="welcome">

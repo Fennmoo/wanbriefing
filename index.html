@@ -5,6 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>湾水告示栏</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -17,7 +20,7 @@
         }
 
         body {
-            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            font-family: -apple-system, 'SF Pro Display', 'SF Pro Text', 'PingFang SC', 'Inter', 'Noto Sans SC', 'Helvetica Neue', 'Microsoft YaHei', sans-serif;
             background: linear-gradient(135deg, #e8f4f8 0%, #dceef5 30%, #e3f0f8 60%, #eaf3fa 100%);
             color: #1a3a4a;
             line-height: 1.6;
@@ -270,6 +273,304 @@
                 font-size: 1.5rem;
             }
         }
+
+        .music-player {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            box-shadow: 0 -2px 24px rgba(78, 136, 180, 0.12),
+                        inset 0 0 0 1px rgba(255, 255, 255, 0.6);
+            z-index: 999;
+            transition: all 0.35s cubic-bezier(0.42, 0, 0.58, 1);
+            border-top: 1px solid rgba(160, 200, 230, 0.2);
+        }
+
+        .music-player.minimized {
+            width: auto;
+            left: auto;
+            right: 20px;
+            bottom: 20px;
+            border-radius: 28px;
+            max-width: 200px;
+        }
+
+        .player-mini {
+            display: flex;
+            align-items: center;
+            padding: 10px 16px;
+            gap: 10px;
+        }
+
+        .player-expanded {
+            padding: 14px 20px 18px;
+        }
+
+        .player-expanded .player-controls-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+
+        .player-btn {
+            background: rgba(255, 255, 255, 0.5);
+            border: none;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #2c6080;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .player-btn:hover {
+            background: linear-gradient(135deg, #6db3d4, #8ecae6);
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(90, 156, 197, 0.35);
+            transform: scale(1.08);
+        }
+
+        .player-btn.play-btn {
+            width: 42px;
+            height: 42px;
+            font-size: 1.2rem;
+        }
+
+        .player-track-name {
+            font-size: 0.85rem;
+            color: #2c6080;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            flex: 1;
+            min-width: 0;
+            font-weight: 500;
+        }
+
+        .player-progress-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .player-time {
+            font-size: 0.72rem;
+            color: #7a9ab0;
+            min-width: 36px;
+            text-align: center;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .player-progress-bar {
+            flex: 1;
+            height: 4px;
+            background: rgba(78, 136, 180, 0.15);
+            border-radius: 2px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .player-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #6db3d4, #8ecae6);
+            border-radius: 2px;
+            width: 0%;
+            transition: width 0.1s linear;
+            position: relative;
+        }
+
+        .player-progress-fill::after {
+            content: '';
+            position: absolute;
+            right: -5px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 10px;
+            height: 10px;
+            background: #fff;
+            border: 2px solid #6db3d4;
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .player-progress-bar:hover .player-progress-fill::after {
+            opacity: 1;
+        }
+
+        .player-volume-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .player-volume-icon {
+            font-size: 0.9rem;
+            color: #7a9ab0;
+            cursor: pointer;
+            width: 20px;
+            text-align: center;
+        }
+
+        .player-volume-bar {
+            width: 80px;
+            height: 4px;
+            background: rgba(78, 136, 180, 0.15);
+            border-radius: 2px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .player-volume-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #6db3d4, #8ecae6);
+            border-radius: 2px;
+            width: 80%;
+        }
+
+        .player-upload-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(160, 200, 230, 0.2);
+        }
+
+        .player-upload-btn {
+            background: linear-gradient(135deg, #6db3d4, #8ecae6);
+            color: #fff;
+            border: none;
+            border-radius: 16px;
+            padding: 6px 16px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .player-upload-btn:hover {
+            box-shadow: 0 4px 14px rgba(90, 156, 197, 0.35);
+            transform: translateY(-1px);
+        }
+
+        .player-playlist {
+            max-height: 120px;
+            overflow-y: auto;
+            margin-top: 8px;
+        }
+
+        .player-playlist-item {
+            display: flex;
+            align-items: center;
+            padding: 5px 8px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            color: #2c6080;
+            transition: background 0.15s;
+            gap: 6px;
+        }
+
+        .player-playlist-item:hover {
+            background: rgba(78, 136, 180, 0.08);
+        }
+
+        .player-playlist-item.active {
+            background: rgba(78, 136, 180, 0.12);
+            font-weight: 600;
+        }
+
+        .player-playlist-item .item-index {
+            color: #7a9ab0;
+            min-width: 18px;
+            font-size: 0.72rem;
+        }
+
+        .player-playlist-item .item-name {
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .player-playlist-item .item-remove {
+            color: #b0c4d0;
+            cursor: pointer;
+            font-size: 0.85rem;
+            padding: 0 4px;
+            transition: color 0.15s;
+        }
+
+        .player-playlist-item .item-remove:hover {
+            color: #e06060;
+        }
+
+        .player-toggle-btn {
+            background: none;
+            border: none;
+            color: #7a9ab0;
+            cursor: pointer;
+            font-size: 0.85rem;
+            padding: 4px;
+            transition: color 0.15s;
+        }
+
+        .player-toggle-btn:hover {
+            color: #2c6080;
+        }
+
+        .player-file-input {
+            display: none;
+        }
+
+        .player-empty {
+            text-align: center;
+            padding: 8px;
+            color: #7a9ab0;
+            font-size: 0.8rem;
+        }
+
+        body {
+            padding-bottom: 70px;
+        }
+
+        @media (max-width: 700px) {
+            .music-player.minimized {
+                right: 12px;
+                bottom: 12px;
+                max-width: 160px;
+            }
+            .player-btn {
+                width: 32px;
+                height: 32px;
+                font-size: 0.9rem;
+            }
+            .player-btn.play-btn {
+                width: 38px;
+                height: 38px;
+                font-size: 1.1rem;
+            }
+            .player-expanded {
+                padding: 10px 14px 14px;
+            }
+            .player-volume-bar {
+                width: 60px;
+            }
+            body {
+                padding-bottom: 60px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -282,6 +583,7 @@
             <a href="#welcome">欢迎标题</a>
             <a href="#subway">地铁告示栏</a>
             <a href="#bus">公交告示栏</a>
+            <a href="admin.html">管理后台</a>
         </div>
     </nav>
 
@@ -292,29 +594,97 @@
     </div>
 
     <div class="module title-module" id="welcome">
-        <h1>欢迎来到湾水告示栏</h1>
-        <h1>Welcome to the Wanshui Briefing</h1>
+        <h1 id="welcomeTitleZh">欢迎来到湾水告示栏</h1>
+        <h1 id="welcomeTitleEn">Welcome to the Wanshui Briefing</h1>
     </div>
 
     <div class="module body-module" id="subway">
         <h2>地铁告示栏</h2>
-        <h3>更新日期：2026/5/10</h3>
-        <p class="notice-text">我们重启了这个告示栏握手</p>
+        <h3 id="subwayDate">更新日期：2026/5/10</h3>
+        <p class="notice-text" id="subwayText">我们重启了这个告示栏握手</p>
     </div>
 
     <div class="module body-module" id="bus">
         <h2>公交告示栏</h2>
-        <h3>更新日期：2026/5/10</h3>
-        <p class="notice-text">我们重启了这个告示栏握手</p>
+        <h3 id="busDate">更新日期：2026/5/10</h3>
+        <p class="notice-text" id="busText">我们重启了这个告示栏握手</p>
     </div>
 
     <footer class="site-footer">
         湾水湾水湾水湾水湾水湾水湾水湾水湾水湾水湾水湾水湾水湾水湾水湾水湾水湾水
     </footer>
 
+    <div class="music-player minimized" id="musicPlayer">
+        <div class="player-mini" id="playerMini">
+            <button class="player-btn play-btn" id="miniPlayBtn" title="播放/暂停">▶</button>
+            <span class="player-track-name" id="miniTrackName">点击添加音乐</span>
+            <button class="player-toggle-btn" id="expandBtn" title="展开">⬆</button>
+        </div>
+        <div class="player-expanded" id="playerExpanded" style="display:none;">
+            <div class="player-controls-row">
+                <button class="player-btn" id="prevTrackBtn" title="上一首">⏮</button>
+                <button class="player-btn play-btn" id="playBtn" title="播放/暂停">▶</button>
+                <button class="player-btn" id="nextTrackBtn" title="下一首">⏭</button>
+                <span class="player-track-name" id="trackName">未选择音乐</span>
+                <button class="player-toggle-btn" id="collapseBtn" title="收起">⬇</button>
+            </div>
+            <div class="player-progress-row">
+                <span class="player-time" id="currentTime">0:00</span>
+                <div class="player-progress-bar" id="progressBar">
+                    <div class="player-progress-fill" id="progressFill"></div>
+                </div>
+                <span class="player-time" id="totalTime">0:00</span>
+            </div>
+            <div class="player-volume-row">
+                <span class="player-volume-icon" id="volumeIcon">🔊</span>
+                <div class="player-volume-bar" id="volumeBar">
+                    <div class="player-volume-fill" id="volumeFill"></div>
+                </div>
+            </div>
+            <div class="player-upload-row">
+                <button class="player-upload-btn" id="uploadBtn">添加音乐</button>
+                <input type="file" class="player-file-input" id="fileInput" accept="audio/*" multiple>
+                <span class="player-track-name" id="uploadHint" style="font-size:0.75rem;color:#7a9ab0;">支持 MP3、WAV、OGG、FLAC</span>
+            </div>
+            <div class="player-playlist" id="playlist"></div>
+        </div>
+    </div>
+
     <script>
         (function() {
-            const images = [
+            var STORAGE_KEY = 'wanbriefing_content';
+            var saved = localStorage.getItem(STORAGE_KEY);
+            if (saved) {
+                try {
+                    var data = JSON.parse(saved);
+                    if (data.welcomeTitle) document.getElementById('welcomeTitleZh').textContent = data.welcomeTitle;
+                    if (data.welcomeTitleEn) document.getElementById('welcomeTitleEn').textContent = data.welcomeTitleEn;
+                    if (data.subwayDate) document.getElementById('subwayDate').textContent = '更新日期：' + data.subwayDate;
+                    if (data.subwayText) document.getElementById('subwayText').textContent = data.subwayText;
+                    if (data.busDate) document.getElementById('busDate').textContent = '更新日期：' + data.busDate;
+                    if (data.busText) document.getElementById('busText').textContent = data.busText;
+                } catch (e) {}
+            }
+        })();
+    </script>
+
+    <script>
+        (function() {
+            var STORAGE_KEY = 'wanbriefing_content';
+            var saved = localStorage.getItem(STORAGE_KEY);
+            var customImages = null;
+            if (saved) {
+                try {
+                    var data = JSON.parse(saved);
+                    if (data.banner1 || data.banner2 || data.banner3) {
+                        customImages = [];
+                        customImages.push(data.banner1 || 'background1.png');
+                        customImages.push(data.banner2 || 'background2.png');
+                        customImages.push(data.banner3 || 'background3.png');
+                    }
+                } catch (e) {}
+            }
+            var images = customImages || [
                 'background1.png',
                 'background2.png',
                 'background3.png'
@@ -445,6 +815,237 @@
 
             initSlides();
             startAuto();
+        })();
+    </script>
+
+    <script>
+        (function() {
+            var audio = new Audio();
+            var playlist = [];
+            var currentIndex = -1;
+            var isPlaying = false;
+            var savedVolume = localStorage.getItem('playerVolume');
+            audio.volume = savedVolume !== null ? parseFloat(savedVolume) : 0.8;
+
+            var player = document.getElementById('musicPlayer');
+            var playerMini = document.getElementById('playerMini');
+            var playerExpanded = document.getElementById('playerExpanded');
+            var miniPlayBtn = document.getElementById('miniPlayBtn');
+            var miniTrackName = document.getElementById('miniTrackName');
+            var expandBtn = document.getElementById('expandBtn');
+            var collapseBtn = document.getElementById('collapseBtn');
+            var playBtn = document.getElementById('playBtn');
+            var prevTrackBtn = document.getElementById('prevTrackBtn');
+            var nextTrackBtn = document.getElementById('nextTrackBtn');
+            var trackName = document.getElementById('trackName');
+            var currentTimeEl = document.getElementById('currentTime');
+            var totalTimeEl = document.getElementById('totalTime');
+            var progressBar = document.getElementById('progressBar');
+            var progressFill = document.getElementById('progressFill');
+            var volumeIcon = document.getElementById('volumeIcon');
+            var volumeBar = document.getElementById('volumeBar');
+            var volumeFill = document.getElementById('volumeFill');
+            var uploadBtn = document.getElementById('uploadBtn');
+            var fileInput = document.getElementById('fileInput');
+            var playlistEl = document.getElementById('playlist');
+
+            volumeFill.style.width = (audio.volume * 100) + '%';
+            updateVolumeIcon();
+
+            function formatTime(sec) {
+                if (!sec || isNaN(sec)) return '0:00';
+                var m = Math.floor(sec / 60);
+                var s = Math.floor(sec % 60);
+                return m + ':' + (s < 10 ? '0' : '') + s;
+            }
+
+            function updateVolumeIcon() {
+                if (audio.muted || audio.volume === 0) volumeIcon.textContent = '🔇';
+                else if (audio.volume < 0.5) volumeIcon.textContent = '🔉';
+                else volumeIcon.textContent = '🔊';
+            }
+
+            function updateTrackDisplay() {
+                var name = currentIndex >= 0 ? playlist[currentIndex].name : '未选择音乐';
+                trackName.textContent = name;
+                miniTrackName.textContent = currentIndex >= 0 ? name : '点击添加音乐';
+            }
+
+            function updatePlayButtons() {
+                var icon = isPlaying ? '⏸' : '▶';
+                playBtn.textContent = icon;
+                miniPlayBtn.textContent = icon;
+            }
+
+            function renderPlaylist() {
+                playlistEl.innerHTML = '';
+                if (playlist.length === 0) {
+                    playlistEl.innerHTML = '<div class="player-empty">暂无音乐，请点击添加</div>';
+                    return;
+                }
+                playlist.forEach(function(track, i) {
+                    var item = document.createElement('div');
+                    item.className = 'player-playlist-item' + (i === currentIndex ? ' active' : '');
+                    item.innerHTML = '<span class="item-index">' + (i + 1) + '</span>' +
+                        '<span class="item-name">' + track.name + '</span>' +
+                        '<span class="item-remove" data-index="' + i + '">×</span>';
+                    item.addEventListener('click', function(e) {
+                        if (e.target.classList.contains('item-remove')) {
+                            removeTrack(parseInt(e.target.dataset.index));
+                            return;
+                        }
+                        playTrack(i);
+                    });
+                    playlistEl.appendChild(item);
+                });
+            }
+
+            function playTrack(index) {
+                if (index < 0 || index >= playlist.length) return;
+                currentIndex = index;
+                audio.src = playlist[index].url;
+                audio.play();
+                isPlaying = true;
+                updatePlayButtons();
+                updateTrackDisplay();
+                renderPlaylist();
+            }
+
+            function togglePlay() {
+                if (playlist.length === 0) {
+                    fileInput.click();
+                    return;
+                }
+                if (currentIndex < 0) {
+                    playTrack(0);
+                    return;
+                }
+                if (isPlaying) {
+                    audio.pause();
+                    isPlaying = false;
+                } else {
+                    audio.play();
+                    isPlaying = true;
+                }
+                updatePlayButtons();
+            }
+
+            function removeTrack(index) {
+                URL.revokeObjectURL(playlist[index].url);
+                playlist.splice(index, 1);
+                if (playlist.length === 0) {
+                    audio.pause();
+                    audio.src = '';
+                    currentIndex = -1;
+                    isPlaying = false;
+                    updatePlayButtons();
+                    updateTrackDisplay();
+                } else if (index === currentIndex) {
+                    currentIndex = Math.min(currentIndex, playlist.length - 1);
+                    playTrack(currentIndex);
+                } else if (index < currentIndex) {
+                    currentIndex--;
+                }
+                renderPlaylist();
+            }
+
+            miniPlayBtn.addEventListener('click', togglePlay);
+            playBtn.addEventListener('click', togglePlay);
+
+            prevTrackBtn.addEventListener('click', function() {
+                if (playlist.length === 0) return;
+                playTrack((currentIndex - 1 + playlist.length) % playlist.length);
+            });
+
+            nextTrackBtn.addEventListener('click', function() {
+                if (playlist.length === 0) return;
+                playTrack((currentIndex + 1) % playlist.length);
+            });
+
+            expandBtn.addEventListener('click', function() {
+                player.classList.remove('minimized');
+                playerMini.style.display = 'none';
+                playerExpanded.style.display = 'block';
+            });
+
+            collapseBtn.addEventListener('click', function() {
+                player.classList.add('minimized');
+                playerMini.style.display = 'flex';
+                playerExpanded.style.display = 'none';
+            });
+
+            uploadBtn.addEventListener('click', function() {
+                fileInput.click();
+            });
+
+            fileInput.addEventListener('change', function(e) {
+                var files = e.target.files;
+                for (var i = 0; i < files.length; i++) {
+                    var file = files[i];
+                    if (file.type.startsWith('audio/')) {
+                        playlist.push({
+                            name: file.name.replace(/\.[^.]+$/, ''),
+                            url: URL.createObjectURL(file)
+                        });
+                    }
+                }
+                fileInput.value = '';
+                renderPlaylist();
+                if (currentIndex < 0 && playlist.length > 0) {
+                    updateTrackDisplay();
+                }
+            });
+
+            audio.addEventListener('timeupdate', function() {
+                if (!audio.duration) return;
+                var pct = (audio.currentTime / audio.duration) * 100;
+                progressFill.style.width = pct + '%';
+                currentTimeEl.textContent = formatTime(audio.currentTime);
+            });
+
+            audio.addEventListener('loadedmetadata', function() {
+                totalTimeEl.textContent = formatTime(audio.duration);
+            });
+
+            audio.addEventListener('ended', function() {
+                if (playlist.length > 1) {
+                    playTrack((currentIndex + 1) % playlist.length);
+                } else {
+                    isPlaying = false;
+                    updatePlayButtons();
+                    progressFill.style.width = '0%';
+                    currentTimeEl.textContent = '0:00';
+                }
+            });
+
+            progressBar.addEventListener('click', function(e) {
+                if (!audio.duration) return;
+                var rect = progressBar.getBoundingClientRect();
+                var pct = (e.clientX - rect.left) / rect.width;
+                audio.currentTime = pct * audio.duration;
+            });
+
+            volumeBar.addEventListener('click', function(e) {
+                var rect = volumeBar.getBoundingClientRect();
+                var pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+                audio.volume = pct;
+                audio.muted = false;
+                volumeFill.style.width = (pct * 100) + '%';
+                updateVolumeIcon();
+                localStorage.setItem('playerVolume', pct.toString());
+            });
+
+            volumeIcon.addEventListener('click', function() {
+                audio.muted = !audio.muted;
+                if (audio.muted) {
+                    volumeFill.style.width = '0%';
+                } else {
+                    volumeFill.style.width = (audio.volume * 100) + '%';
+                }
+                updateVolumeIcon();
+            });
+
+            renderPlaylist();
         })();
     </script>
 

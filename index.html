@@ -6,92 +6,123 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>湾水简洁告示栏</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f0f4f0;
+            color: #000;
+            line-height: 1.6;
+        }
+
+        .banner {
+            width: 100%;
+            height: 300px;
             background-image: url('background.png');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            color: #000;
-            margin: 0;
-            padding: 20px;
-            min-height: 100vh;
+            position: relative;
         }
 
-        /* 顶部图片区域 - 独立成行 */
-        .top-image-area {
-            text-align: left;
-            margin-bottom: 20px;
-        }
-
-        .top-image-area a.image-link {
+        .logo-link {
+            position: absolute;
+            top: 20px;
+            left: 20px;
             display: inline-block;
             text-decoration: none;
+            z-index: 10;
         }
 
-        .top-image-area img.left-top {
-            width: 350px;
+        .logo-link img {
+            width: 280px;
             height: auto;
             display: block;
+            filter: drop-shadow(0 2px 6px rgba(0,0,0,0.3));
         }
 
-        /* 内容区域 - 在图片下方，完全分开 */
-        .content-area {
+        .content {
+            background-color: #ffffff;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 40px 30px;
+            border-radius: 18px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
             text-align: center;
-            clear: both;
-            padding-top: 10px;
         }
 
-        h1,
-        h2,
-        h3,
-        p {
-            text-align: center;
-            margin: 16px 0;
+        .content h1 {
+            font-size: 2.2rem;
+            margin-bottom: 0.3em;
+            color: #2c3e50;
+        }
+
+        .content h2 {
+            font-size: 1.8rem;
+            margin: 1.5em 0 0.5em;
+            color: #3a5a40;
+            border-bottom: 2px dashed #ccc;
+            display: inline-block;
+            padding-bottom: 0.2em;
+        }
+
+        .content h3 {
+            font-size: 1.3rem;
+            color: #5f6b7a;
+            margin-bottom: 1.2em;
+        }
+
+        .content p {
+            font-size: 1.1rem;
+            margin: 0.8em 0;
         }
 
         .white-text {
-            color: white;
+            color: #7f8c8d;
+            font-size: 0.95rem;
+            margin-top: 2em;
         }
 
-        /* 响应式：小屏幕时图片适当缩小 */
-        @media (max-width: 500px) {
-            .top-image-area img.left-top {
-                width: 220px;
+        @media (max-width: 600px) {
+            .banner {
+                height: 200px;
             }
-            body {
-                padding: 12px;
+            .logo-link img {
+                width: 180px;
+            }
+            .content {
+                margin: 20px 12px;
+                padding: 25px 18px;
+            }
+            .content h1 {
+                font-size: 1.6rem;
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- 顶部图片，独立区块 -->
-    <div class="top-image-area">
-        <a href="https://fennmoo.github.io/wanbriefing/" class="image-link">
-            <img src="wanshuijituan.png" alt="湾水集团图片" class="left-top">
+    <div class="banner">
+        <a href="https://fennmoo.github.io/wanbriefing/" class="logo-link">
+            <img src="wanshuijituan.png" alt="湾水集团图片">
         </a>
     </div>
 
-    <!-- 下方文字内容，完全分离 -->
-    <div class="content-area">
+    <div class="content">
         <h1>欢迎来到湾水简洁告示栏</h1>
         <h1>Welcome to the Wanshui Briefing</h1>
 
         <br>
-        <br>
-
         <h2>——湾水交通告示栏——</h2>
         <h3>日期：2024.7.8</h3>
         <p>1. 测试捂脸🤦。</p>
 
         <br>
-        <br>
-        <br>
-        <br>
-
-        <p><span class="white-text">注：大陆访问可能很慢，因为GitHub在国外lol</span></p>
-        <!-- AI真的好用lol -->
+        <p class="white-text">注：大陆访问可能很慢，因为GitHub在国外lol</p>
     </div>
 
 </body>

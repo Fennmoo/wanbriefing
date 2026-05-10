@@ -12,21 +12,100 @@
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-            background-color: #F5F5DC;
-            color: #000;
+            background: linear-gradient(135deg, #e8f4f8 0%, #dceef5 30%, #e3f0f8 60%, #eaf3fa 100%);
+            color: #1a3a4a;
             line-height: 1.6;
+            padding-top: 60px;
+            min-height: 100vh;
+        }
+
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            box-shadow: 0 2px 24px rgba(78, 136, 180, 0.12),
+                        inset 0 0 0 1px rgba(255, 255, 255, 0.6);
+            display: flex;
+            justify-content: center;
+            gap: 28px;
+            padding: 14px 20px;
+            z-index: 1000;
+            flex-wrap: wrap;
+            border-bottom: 1px solid rgba(160, 200, 230, 0.2);
+        }
+
+        .top-nav a {
+            text-decoration: none;
+            color: #3a6d8c;
+            font-weight: 500;
+            font-size: 1rem;
+            padding: 8px 18px;
+            border-radius: 20px;
+            transition: all 0.25s ease;
+            letter-spacing: 0.02em;
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .top-nav a:hover {
+            background: linear-gradient(135deg, #6db3d4, #8ecae6);
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(90, 156, 197, 0.35);
+            transform: translateY(-1px);
+            backdrop-filter: blur(0px);
+            -webkit-backdrop-filter: blur(0px);
         }
 
         .banner {
             width: 100%;
             height: 300px;
-            background-image: url('background.png');
+            position: relative;
+            overflow: hidden;
+            margin-top: 0;
+        }
+
+        .slider-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            position: relative;
+            transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            will-change: transform;
+        }
+
+        .banner::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: linear-gradient(to bottom, transparent, rgba(232, 244, 248, 0.7));
+            pointer-events: none;
+            z-index: 2;
         }
 
         .logo-link {
@@ -42,88 +121,203 @@
             width: 280px;
             height: auto;
             display: block;
-            filter: drop-shadow(0 2px 6px rgba(0,0,0,0.3));
+            filter: drop-shadow(0 2px 8px rgba(40, 80, 110, 0.25));
         }
 
-        .content {
-            background-color: #ffffff;
+        .module {
+            background: rgba(255, 255, 255, 0.82);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
             max-width: 900px;
-            margin: 40px auto;
-            padding: 40px 30px;
-            border-radius: 18px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+            margin: 30px auto;
+            padding: 40px 36px;
+            border-radius: 20px;
+            box-shadow: 0 4px 28px rgba(78, 136, 180, 0.10), 0 0 0 1px rgba(180, 210, 235, 0.4);
             text-align: center;
+            scroll-margin-top: 80px;
+            transition: box-shadow 0.3s ease;
         }
 
-        .content h1 {
+        .module:hover {
+            box-shadow: 0 8px 36px rgba(78, 136, 180, 0.16), 0 0 0 1px rgba(160, 200, 230, 0.55);
+        }
+
+        .title-module h1 {
             font-size: 2.2rem;
-            margin-bottom: 0.3em;
-            color: #2c3e50;
+            margin-bottom: 0.25em;
+            color: #1e5068;
+            font-weight: 700;
+            letter-spacing: 0.03em;
         }
 
-        .content h2 {
+        .body-module {
+            text-align: left;
+        }
+
+        .body-module h2 {
             font-size: 1.8rem;
-            margin: 1.5em 0 0.5em;
-            color: #3a5a40;
-            border-bottom: 2px dashed #ccc;
-            display: inline-block;
-            padding-bottom: 0.2em;
+            color: #2c6080;
+            border-bottom: 2px dashed #b8d8ec;
+            padding-bottom: 0.25em;
+            display: table;
+            margin: 0 auto 0.6em auto;
+            text-align: center;
+            font-weight: 650;
+            letter-spacing: 0.04em;
         }
 
-        .content h3 {
+        .body-module h3 {
             font-size: 1.3rem;
-            color: #5f6b7a;
-            margin-bottom: 1.2em;
+            color: #a3bcc8;
+            font-style: italic;
+            margin: 1.5em 0 0.8em;
+            font-weight: 500;
         }
 
-        .content p {
+        .body-module .notice-text {
             font-size: 1.1rem;
-            margin: 0.8em 0;
+            margin: 1.2em 0 0.8em;
+            color: #2e5066;
         }
 
-        .white-text {
-            color: #7f8c8d;
-            font-size: 0.95rem;
-            margin-top: 2em;
+        .site-footer {
+            text-align: center;
+            color: #a3bcc8;
+            font-size: 0.9rem;
+            padding: 32px 20px;
+            margin-top: 24px;
+            background: transparent;
+            letter-spacing: 0.04em;
+            opacity: 0.85;
         }
 
         @media (max-width: 600px) {
+            body {
+                padding-top: 120px;
+            }
+            .top-nav {
+                gap: 10px;
+                padding: 12px 10px;
+            }
+            .top-nav a {
+                font-size: 0.9rem;
+                padding: 6px 14px;
+            }
             .banner {
                 height: 200px;
             }
             .logo-link img {
                 width: 180px;
             }
-            .content {
+            .module {
                 margin: 20px 12px;
-                padding: 25px 18px;
+                padding: 28px 20px;
+                scroll-margin-top: 130px;
             }
-            .content h1 {
+            .title-module h1 {
                 font-size: 1.6rem;
+            }
+            .body-module h2 {
+                font-size: 1.5rem;
             }
         }
     </style>
 </head>
 <body>
 
-    <div class="banner">
+    <nav class="top-nav">
+        <a href="#welcome">欢迎标题</a>
+        <a href="#subway">地铁告示栏</a>
+        <a href="#bus">公交告示栏</a>
+    </nav>
+
+    <div class="banner" id="banner">
+        <div class="slider-container" id="sliderContainer"></div>
         <a href="https://fennmoo.github.io/wanbriefing/" class="logo-link">
             <img src="wanshuigaoshilan.png" alt="湾水集团图片">
         </a>
     </div>
 
-    <div class="content">
+    <div class="module title-module" id="welcome">
         <h1>欢迎来到湾水告示栏</h1>
         <h1>Welcome to the Wanshui Briefing</h1>
-
-        <br>
-        <h2>湾水交通告示栏</h2>
-        <h3>日期：2026/5/10</h3>
-        <p>我们重启了这个告示栏握手</p>
-
-        <br>
-        <p class="white-text">湾水湾水湾水湾水湾水湾水湾水湾水湾水湾水湾水湾水湾水湾水湾水湾水湾水湾水</p>
     </div>
+
+    <div class="module body-module" id="subway">
+        <h2>地铁告示栏</h2>
+        <h3>更新日期：2026/5/10</h3>
+        <p class="notice-text">我们重启了这个告示栏握手</p>
+    </div>
+
+    <div class="module body-module" id="bus">
+        <h2>公交告示栏</h2>
+        <h3>更新日期：2026/5/10</h3>
+        <p class="notice-text">我们重启了这个告示栏握手</p>
+    </div>
+
+    <footer class="site-footer">
+        湾水湾水湾水湾水湾水湾水湾水湾水湾水湾水湾水湾水湾水湾水湾水湾水湾水湾水
+    </footer>
+
+    <script>
+        (function() {
+            const images = [
+                'background1.png',
+                'background2.png',
+                'background3.png'
+            ];
+            const container = document.getElementById('sliderContainer');
+
+            const slide1 = document.createElement('div');
+            const slide2 = document.createElement('div');
+            slide1.className = 'slide';
+            slide2.className = 'slide';
+            container.appendChild(slide1);
+            container.appendChild(slide2);
+
+            let currentIndex = 0;
+            let activeSlide = slide1;
+            let nextSlide = slide2;
+
+            function setSlideBackground(slide, imgSrc) {
+                slide.style.backgroundImage = `url('${imgSrc}')`;
+            }
+
+            setSlideBackground(activeSlide, images[0]);
+            activeSlide.style.transform = 'translateX(0)';
+
+            let nextImageIndex = (currentIndex + 1) % images.length;
+            setSlideBackground(nextSlide, images[nextImageIndex]);
+            nextSlide.style.transform = 'translateX(100%)';
+
+            function slideToNext() {
+                activeSlide.style.transform = 'translateX(-100%)';
+                nextSlide.style.transform = 'translateX(0)';
+
+                const onTransitionEnd = () => {
+                    activeSlide.removeEventListener('transitionend', onTransitionEnd);
+
+                    activeSlide.style.transition = 'none';
+                    activeSlide.style.transform = 'translateX(100%)';
+
+                    currentIndex = (currentIndex + 1) % images.length;
+                    const newNextIndex = (currentIndex + 1) % images.length;
+
+                    setSlideBackground(activeSlide, images[newNextIndex]);
+
+                    void activeSlide.offsetWidth;
+
+                    activeSlide.style.transition = '';
+
+                    [activeSlide, nextSlide] = [nextSlide, activeSlide];
+                };
+
+                activeSlide.addEventListener('transitionend', onTransitionEnd);
+            }
+
+            setInterval(slideToNext, 4000);
+        })();
+    </script>
 
 </body>
 </html>

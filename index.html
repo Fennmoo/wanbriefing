@@ -5,10 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>湾水告示栏</title>
+    <!-- 字体：苹方(PingFang SC) + San Francisco(SF Pro) 优先，非 Apple 设备回退到 Inter + Noto Sans SC -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        /* ========== 基础重置 ========== */
         * {
             margin: 0;
             padding: 0;
@@ -19,6 +21,8 @@
             scroll-behavior: smooth;
         }
 
+        /* ========== 全局样式 ========== */
+        /* 字体优先级：SF Pro → PingFang SC → Inter → Noto Sans SC → 系统回退 */
         body {
             font-family: -apple-system, 'SF Pro Display', 'SF Pro Text', 'PingFang SC', 'Inter', 'Noto Sans SC', 'Helvetica Neue', 'Microsoft YaHei', sans-serif;
             background: linear-gradient(135deg, #e8f4f8 0%, #dceef5 30%, #e3f0f8 60%, #eaf3fa 100%);
@@ -28,6 +32,7 @@
             min-height: 100vh;
         }
 
+        /* ========== 顶部导航栏 ========== */
         .top-nav {
             position: fixed;
             top: 0;
@@ -60,6 +65,7 @@
             filter: drop-shadow(0 2px 6px rgba(40, 80, 110, 0.2));
         }
 
+        /* 导航链接区域 */
         .nav-links {
             display: flex;
             gap: 20px;
@@ -88,6 +94,7 @@
             transform: translateY(-1px);
         }
 
+        /* ========== 轮播 Banner ========== */
         .banner {
             width: 100%;
             height: 380px;
@@ -116,6 +123,7 @@
             will-change: transform;
         }
 
+        /* 轮播左右箭头 */
         .arrow {
             position: absolute;
             top: 50%;
@@ -145,14 +153,10 @@
             transform: translateY(-50%) scale(1.05);
         }
 
-        .arrow-left {
-            left: 20px;
-        }
+        .arrow-left { left: 20px; }
+        .arrow-right { right: 20px; }
 
-        .arrow-right {
-            right: 20px;
-        }
-
+        /* Banner 底部渐变遮罩 */
         .banner::after {
             content: '';
             position: absolute;
@@ -165,6 +169,7 @@
             z-index: 15;
         }
 
+        /* ========== 内容模块卡片 ========== */
         .module {
             background: rgba(255, 255, 255, 0.82);
             backdrop-filter: blur(6px);
@@ -183,6 +188,7 @@
             box-shadow: 0 8px 36px rgba(78, 136, 180, 0.16), 0 0 0 1px rgba(160, 200, 230, 0.55);
         }
 
+        /* 欢迎标题模块 */
         .title-module h1 {
             font-size: 2.2rem;
             margin-bottom: 0.25em;
@@ -191,6 +197,7 @@
             letter-spacing: 0.03em;
         }
 
+        /* 告示栏内容模块 */
         .body-module {
             text-align: left;
         }
@@ -221,6 +228,7 @@
             color: #2e5066;
         }
 
+        /* ========== 页脚 ========== */
         .site-footer {
             text-align: center;
             color: #a3bcc8;
@@ -232,48 +240,23 @@
             opacity: 0.85;
         }
 
+        /* ========== 响应式布局（移动端 ≤700px）========== */
         @media (max-width: 700px) {
-            body {
-                padding-top: 110px;
-            }
-            .top-nav {
-                padding: 10px 16px;
-                gap: 10px;
-            }
-            .nav-logo img {
-                width: 110px;
-            }
-            .nav-links a {
-                font-size: 0.85rem;
-                padding: 5px 12px;
-            }
-            .banner {
-                height: 280px;
-            }
-            .arrow {
-                width: 36px;
-                height: 36px;
-                font-size: 1.3rem;
-            }
-            .arrow-left {
-                left: 8px;
-            }
-            .arrow-right {
-                right: 8px;
-            }
-            .module {
-                margin: 20px 12px;
-                padding: 28px 20px;
-                scroll-margin-top: 130px;
-            }
-            .title-module h1 {
-                font-size: 1.6rem;
-            }
-            .body-module h2 {
-                font-size: 1.5rem;
-            }
+            body { padding-top: 110px; }
+            .top-nav { padding: 10px 16px; gap: 10px; }
+            .nav-logo img { width: 110px; }
+            .nav-links a { font-size: 0.85rem; padding: 5px 12px; }
+            .banner { height: 280px; }
+            .arrow { width: 36px; height: 36px; font-size: 1.3rem; }
+            .arrow-left { left: 8px; }
+            .arrow-right { right: 8px; }
+            .module { margin: 20px 12px; padding: 28px 20px; scroll-margin-top: 130px; }
+            .title-module h1 { font-size: 1.6rem; }
+            .body-module h2 { font-size: 1.5rem; }
         }
 
+        /* ========== 音乐播放器 ========== */
+        /* 播放器容器：默认全宽底部固定，minimized 模式为右下角胶囊 */
         .music-player {
             position: fixed;
             bottom: 0;
@@ -298,6 +281,7 @@
             max-width: 200px;
         }
 
+        /* 迷你模式行 */
         .player-mini {
             display: flex;
             align-items: center;
@@ -305,10 +289,12 @@
             gap: 10px;
         }
 
+        /* 展开模式容器 */
         .player-expanded {
             padding: 14px 20px 18px;
         }
 
+        /* 展开模式：控制按钮行（上一首/播放/下一首 + 曲名 + 收起） */
         .player-expanded .player-controls-row {
             display: flex;
             align-items: center;
@@ -316,6 +302,7 @@
             margin-bottom: 10px;
         }
 
+        /* 播放器圆形按钮 */
         .player-btn {
             background: rgba(255, 255, 255, 0.5);
             border: none;
@@ -345,6 +332,19 @@
             font-size: 1.2rem;
         }
 
+        /* 播放模式按钮（循环/随机） */
+        .player-btn.mode-btn {
+            font-size: 0.75rem;
+            width: 30px;
+            height: 30px;
+        }
+
+        .player-btn.mode-btn.active {
+            background: linear-gradient(135deg, #6db3d4, #8ecae6);
+            color: #fff;
+        }
+
+        /* 曲目名称 */
         .player-track-name {
             font-size: 0.85rem;
             color: #2c6080;
@@ -356,6 +356,7 @@
             font-weight: 500;
         }
 
+        /* 进度条行 */
         .player-progress-row {
             display: flex;
             align-items: center;
@@ -389,6 +390,7 @@
             position: relative;
         }
 
+        /* 进度条拖拽圆点（hover 时显示） */
         .player-progress-fill::after {
             content: '';
             position: absolute;
@@ -408,6 +410,7 @@
             opacity: 1;
         }
 
+        /* 音量控制行 */
         .player-volume-row {
             display: flex;
             align-items: center;
@@ -438,6 +441,7 @@
             width: 80%;
         }
 
+        /* 上传音乐行 */
         .player-upload-row {
             display: flex;
             align-items: center;
@@ -464,8 +468,9 @@
             transform: translateY(-1px);
         }
 
+        /* 播放列表 */
         .player-playlist {
-            max-height: 120px;
+            max-height: 150px;
             overflow-y: auto;
             margin-top: 8px;
         }
@@ -504,6 +509,13 @@
             white-space: nowrap;
         }
 
+        /* 仓库音乐标记图标 */
+        .player-playlist-item .item-source {
+            font-size: 0.65rem;
+            color: #6db3d4;
+            flex-shrink: 0;
+        }
+
         .player-playlist-item .item-remove {
             color: #b0c4d0;
             cursor: pointer;
@@ -516,6 +528,7 @@
             color: #e06060;
         }
 
+        /* 展开/收起按钮 */
         .player-toggle-btn {
             background: none;
             border: none;
@@ -541,40 +554,30 @@
             font-size: 0.8rem;
         }
 
+        /* 为播放器预留底部空间 */
         body {
             padding-bottom: 70px;
         }
 
+        /* 播放器移动端适配 */
         @media (max-width: 700px) {
             .music-player.minimized {
                 right: 12px;
                 bottom: 12px;
                 max-width: 160px;
             }
-            .player-btn {
-                width: 32px;
-                height: 32px;
-                font-size: 0.9rem;
-            }
-            .player-btn.play-btn {
-                width: 38px;
-                height: 38px;
-                font-size: 1.1rem;
-            }
-            .player-expanded {
-                padding: 10px 14px 14px;
-            }
-            .player-volume-bar {
-                width: 60px;
-            }
-            body {
-                padding-bottom: 60px;
-            }
+            .player-btn { width: 32px; height: 32px; font-size: 0.9rem; }
+            .player-btn.play-btn { width: 38px; height: 38px; font-size: 1.1rem; }
+            .player-btn.mode-btn { width: 28px; height: 28px; font-size: 0.7rem; }
+            .player-expanded { padding: 10px 14px 14px; }
+            .player-volume-bar { width: 60px; }
+            body { padding-bottom: 60px; }
         }
     </style>
 </head>
 <body>
 
+    <!-- ========== 顶部导航栏 ========== -->
     <nav class="top-nav">
         <a href="https://fennmoo.github.io/wanbriefing/" class="nav-logo">
             <img src="wanshuigaoshilan.png" alt="湾水集团图片">
@@ -587,47 +590,60 @@
         </div>
     </nav>
 
+    <!-- ========== 轮播 Banner ========== -->
     <div class="banner" id="banner">
         <div class="slider-container" id="sliderContainer"></div>
         <button class="arrow arrow-left" id="prevBtn">‹</button>
         <button class="arrow arrow-right" id="nextBtn">›</button>
     </div>
 
+    <!-- ========== 欢迎标题模块 ========== -->
     <div class="module title-module" id="welcome">
         <h1 id="welcomeTitleZh">欢迎来到湾水告示栏</h1>
         <h1 id="welcomeTitleEn">Welcome to the Wanshui Briefing</h1>
     </div>
 
+    <!-- ========== 地铁告示栏模块 ========== -->
     <div class="module body-module" id="subway">
         <h2>地铁告示栏</h2>
         <h3 id="subwayDate">更新日期：2026/5/10</h3>
         <p class="notice-text" id="subwayText">我们重启了这个告示栏握手</p>
     </div>
 
+    <!-- ========== 公交告示栏模块 ========== -->
     <div class="module body-module" id="bus">
         <h2>公交告示栏</h2>
         <h3 id="busDate">更新日期：2026/5/10</h3>
         <p class="notice-text" id="busText">我们重启了这个告示栏握手</p>
     </div>
 
+    <!-- ========== 页脚 ========== -->
     <footer class="site-footer">
         湾水湾水湾水湾水湾水湾水湾水湾水湾水湾水湾水湾水湾水湾水湾水湾水湾水湾水
     </footer>
 
+    <!-- ========== 音乐播放器 ========== -->
+    <!-- 迷你模式：右下角胶囊（播放/暂停 + 曲名 + 展开） -->
+    <!-- 展开模式：完整控件（切歌 + 进度 + 音量 + 播放模式 + 播放列表） -->
     <div class="music-player minimized" id="musicPlayer">
+        <!-- 迷你模式 -->
         <div class="player-mini" id="playerMini">
             <button class="player-btn play-btn" id="miniPlayBtn" title="播放/暂停">▶</button>
-            <span class="player-track-name" id="miniTrackName">点击添加音乐</span>
+            <span class="player-track-name" id="miniTrackName">点击播放音乐</span>
             <button class="player-toggle-btn" id="expandBtn" title="展开">⬆</button>
         </div>
+        <!-- 展开模式 -->
         <div class="player-expanded" id="playerExpanded" style="display:none;">
+            <!-- 控制按钮行：上一首 | 播放/暂停 | 下一首 | 曲名 | 播放模式 | 收起 -->
             <div class="player-controls-row">
                 <button class="player-btn" id="prevTrackBtn" title="上一首">⏮</button>
                 <button class="player-btn play-btn" id="playBtn" title="播放/暂停">▶</button>
                 <button class="player-btn" id="nextTrackBtn" title="下一首">⏭</button>
                 <span class="player-track-name" id="trackName">未选择音乐</span>
+                <button class="player-btn mode-btn" id="modeBtn" title="播放模式：顺序播放">↻</button>
                 <button class="player-toggle-btn" id="collapseBtn" title="收起">⬇</button>
             </div>
+            <!-- 进度条行 -->
             <div class="player-progress-row">
                 <span class="player-time" id="currentTime">0:00</span>
                 <div class="player-progress-bar" id="progressBar">
@@ -635,21 +651,25 @@
                 </div>
                 <span class="player-time" id="totalTime">0:00</span>
             </div>
+            <!-- 音量控制行 -->
             <div class="player-volume-row">
                 <span class="player-volume-icon" id="volumeIcon">🔊</span>
                 <div class="player-volume-bar" id="volumeBar">
                     <div class="player-volume-fill" id="volumeFill"></div>
                 </div>
             </div>
+            <!-- 上传音乐行 -->
             <div class="player-upload-row">
                 <button class="player-upload-btn" id="uploadBtn">添加音乐</button>
                 <input type="file" class="player-file-input" id="fileInput" accept="audio/*" multiple>
                 <span class="player-track-name" id="uploadHint" style="font-size:0.75rem;color:#7a9ab0;">支持 MP3、WAV、OGG、FLAC</span>
             </div>
+            <!-- 播放列表 -->
             <div class="player-playlist" id="playlist"></div>
         </div>
     </div>
 
+    <!-- ========== 脚本1：从 localStorage 读取后台管理的内容 ========== -->
     <script>
         (function() {
             var STORAGE_KEY = 'wanbriefing_content';
@@ -657,10 +677,13 @@
             if (saved) {
                 try {
                     var data = JSON.parse(saved);
+                    // 读取后台保存的欢迎标题
                     if (data.welcomeTitle) document.getElementById('welcomeTitleZh').textContent = data.welcomeTitle;
                     if (data.welcomeTitleEn) document.getElementById('welcomeTitleEn').textContent = data.welcomeTitleEn;
+                    // 读取后台保存的地铁告示栏内容
                     if (data.subwayDate) document.getElementById('subwayDate').textContent = '更新日期：' + data.subwayDate;
                     if (data.subwayText) document.getElementById('subwayText').textContent = data.subwayText;
+                    // 读取后台保存的公交告示栏内容
                     if (data.busDate) document.getElementById('busDate').textContent = '更新日期：' + data.busDate;
                     if (data.busText) document.getElementById('busText').textContent = data.busText;
                 } catch (e) {}
@@ -668,11 +691,13 @@
         })();
     </script>
 
+    <!-- ========== 脚本2：轮播 Banner ========== -->
     <script>
         (function() {
             var STORAGE_KEY = 'wanbriefing_content';
             var saved = localStorage.getItem(STORAGE_KEY);
             var customImages = null;
+            // 读取后台保存的轮播图片 URL
             if (saved) {
                 try {
                     var data = JSON.parse(saved);
@@ -684,39 +709,42 @@
                     }
                 } catch (e) {}
             }
+            // 默认轮播图片列表（如后台未配置则使用本地图片）
             var images = customImages || [
                 'background1.png',
                 'background2.png',
                 'background3.png'
             ];
-            const container = document.getElementById('sliderContainer');
-            const prevBtn = document.getElementById('prevBtn');
-            const nextBtn = document.getElementById('nextBtn');
 
-            const slide1 = document.createElement('div');
-            const slide2 = document.createElement('div');
+            var container = document.getElementById('sliderContainer');
+            var prevBtn = document.getElementById('prevBtn');
+            var nextBtn = document.getElementById('nextBtn');
+
+            // 创建两个 slide 元素用于交替切换
+            var slide1 = document.createElement('div');
+            var slide2 = document.createElement('div');
             slide1.className = 'slide';
             slide2.className = 'slide';
             container.appendChild(slide1);
             container.appendChild(slide2);
 
-            let currentIndex = 0;
-            let activeSlide = slide1;
-            let nextSlide = slide2;
-            let autoTimer = null;
-            let pauseTimer = null;
-            const autoInterval = 6000;
-            const pauseAfterManual = 10000;
-            let isAnimating = false;   // 动画锁
+            var currentIndex = 0;
+            var activeSlide = slide1;
+            var nextSlide = slide2;
+            var autoTimer = null;
+            var pauseTimer = null;
+            var autoInterval = 6000;       // 自动轮播间隔（毫秒）
+            var pauseAfterManual = 10000;  // 手动切换后暂停时长
+            var isAnimating = false;       // 动画锁，防止连续点击
 
             function setBg(el, imgSrc) {
-                el.style.backgroundImage = `url('${imgSrc}')`;
+                el.style.backgroundImage = "url('" + imgSrc + "')";
             }
 
             function initSlides() {
                 setBg(activeSlide, images[0]);
                 activeSlide.style.transform = 'translateX(0)';
-                const nextIdx = (currentIndex + 1) % images.length;
+                var nextIdx = (currentIndex + 1) % images.length;
                 setBg(nextSlide, images[nextIdx]);
                 nextSlide.style.transform = 'translateX(100%)';
             }
@@ -725,26 +753,19 @@
             function slideToNext() {
                 if (isAnimating) return;
                 isAnimating = true;
-
                 activeSlide.style.transform = 'translateX(-100%)';
                 nextSlide.style.transform = 'translateX(0)';
-
-                const onFinish = () => {
+                var onFinish = function() {
                     activeSlide.removeEventListener('transitionend', onFinish);
-                    // 重置已经滑出的activeSlide到右侧，准备下一次
                     activeSlide.style.transition = 'none';
                     activeSlide.style.transform = 'translateX(100%)';
                     currentIndex = (currentIndex + 1) % images.length;
-                    const newNext = (currentIndex + 1) % images.length;
-                    setBg(activeSlide, images[newNext]);
-                    // 强制重绘
+                    setBg(activeSlide, images[(currentIndex + 1) % images.length]);
                     void activeSlide.offsetWidth;
                     activeSlide.style.transition = '';
-                    // 交换引用
-                    [activeSlide, nextSlide] = [nextSlide, activeSlide];
+                    var tmp = activeSlide; activeSlide = nextSlide; nextSlide = tmp;
                     isAnimating = false;
                 };
-
                 activeSlide.addEventListener('transitionend', onFinish);
             }
 
@@ -752,81 +773,68 @@
             function slideToPrev() {
                 if (isAnimating) return;
                 isAnimating = true;
-
-                // 将nextSlide瞬间放到左侧，准备滑入
+                var prevIdx = (currentIndex - 1 + images.length) % images.length;
                 nextSlide.style.transition = 'none';
-                const prevIdx = (currentIndex - 1 + images.length) % images.length;
                 setBg(nextSlide, images[prevIdx]);
                 nextSlide.style.transform = 'translateX(-100%)';
                 void nextSlide.offsetWidth;
                 nextSlide.style.transition = '';
-
-                // 当前activeSlide向右滑出，nextSlide滑入中央
                 activeSlide.style.transform = 'translateX(100%)';
                 nextSlide.style.transform = 'translateX(0)';
-
-                const onFinish = () => {
+                var onFinish = function() {
                     activeSlide.removeEventListener('transitionend', onFinish);
-                    // 重置activeSlide到左侧，准备下一次
                     activeSlide.style.transition = 'none';
                     activeSlide.style.transform = 'translateX(-100%)';
                     currentIndex = prevIdx;
-                    const newNext = (currentIndex + 1) % images.length;
-                    setBg(activeSlide, images[newNext]);
+                    setBg(activeSlide, images[(currentIndex + 1) % images.length]);
                     void activeSlide.offsetWidth;
                     activeSlide.style.transition = '';
-                    [activeSlide, nextSlide] = [nextSlide, activeSlide];
+                    var tmp = activeSlide; activeSlide = nextSlide; nextSlide = tmp;
                     isAnimating = false;
                 };
-
                 activeSlide.addEventListener('transitionend', onFinish);
             }
 
-            function startAuto() {
-                stopAuto();
-                autoTimer = setInterval(slideToNext, autoInterval);
-            }
-
-            function stopAuto() {
-                if (autoTimer) {
-                    clearInterval(autoTimer);
-                    autoTimer = null;
-                }
-            }
-
+            function startAuto() { stopAuto(); autoTimer = setInterval(slideToNext, autoInterval); }
+            function stopAuto() { if (autoTimer) { clearInterval(autoTimer); autoTimer = null; } }
             function resetPause() {
                 if (pauseTimer) clearTimeout(pauseTimer);
                 stopAuto();
-                pauseTimer = setTimeout(() => {
-                    pauseTimer = null;
-                    startAuto();
-                }, pauseAfterManual);
+                pauseTimer = setTimeout(function() { pauseTimer = null; startAuto(); }, pauseAfterManual);
             }
 
-            prevBtn.addEventListener('click', () => {
-                slideToPrev();
-                resetPause();
-            });
-
-            nextBtn.addEventListener('click', () => {
-                slideToNext();
-                resetPause();
-            });
+            prevBtn.addEventListener('click', function() { slideToPrev(); resetPause(); });
+            nextBtn.addEventListener('click', function() { slideToNext(); resetPause(); });
 
             initSlides();
             startAuto();
         })();
     </script>
 
+    <!-- ========== 脚本3：音乐播放器 ========== -->
+    <!-- 功能：仓库预置音乐 + 本地上传 + 播放/暂停 + 上一首/下一首 + 进度拖拽 + 音量 + 播放模式（顺序/单曲循环/随机） -->
     <script>
         (function() {
             var audio = new Audio();
-            var playlist = [];
-            var currentIndex = -1;
+            var playlist = [];     // 播放列表：{ name, url, isLocal }
+            var currentIndex = -1; // 当前播放索引，-1 表示未选中
             var isPlaying = false;
+
+            // ---- 播放模式 ----
+            // 'sequential' 顺序播放（列表循环）
+            // 'single'      单曲循环
+            // 'shuffle'     随机播放
+            var playModes = ['sequential', 'single', 'shuffle'];
+            var playModeLabels = { sequential: '↻', single: '🔂', shuffle: '⇄' };
+            var playModeTitles = { sequential: '顺序播放', single: '单曲循环', shuffle: '随机播放' };
+            var savedMode = localStorage.getItem('playerMode');
+            var currentModeIndex = playModes.indexOf(savedMode) >= 0 ? playModes.indexOf(savedMode) : 0;
+
+            // ---- 音量 ----
             var savedVolume = localStorage.getItem('playerVolume');
             audio.volume = savedVolume !== null ? parseFloat(savedVolume) : 0.8;
 
+            // ---- DOM 元素引用 ----
             var player = document.getElementById('musicPlayer');
             var playerMini = document.getElementById('playerMini');
             var playerExpanded = document.getElementById('playerExpanded');
@@ -838,6 +846,7 @@
             var prevTrackBtn = document.getElementById('prevTrackBtn');
             var nextTrackBtn = document.getElementById('nextTrackBtn');
             var trackName = document.getElementById('trackName');
+            var modeBtn = document.getElementById('modeBtn');
             var currentTimeEl = document.getElementById('currentTime');
             var totalTimeEl = document.getElementById('totalTime');
             var progressBar = document.getElementById('progressBar');
@@ -849,9 +858,24 @@
             var fileInput = document.getElementById('fileInput');
             var playlistEl = document.getElementById('playlist');
 
+            // ---- 初始化 ----
             volumeFill.style.width = (audio.volume * 100) + '%';
             updateVolumeIcon();
+            updateModeBtn();
 
+            // ---- 仓库预置音乐列表 ----
+            // 在此添加仓库中的音乐文件，name 为显示名，url 为文件路径
+            var repoMusic = [
+                { name: '罗大佑 - 首都', url: '08. 罗大佑 - 首都.mp3' },
+                { name: 'audio (6)', url: 'audio (6).wav' }
+            ];
+            // 将仓库音乐加入播放列表
+            repoMusic.forEach(function(track) {
+                playlist.push({ name: track.name, url: track.url, isLocal: false });
+            });
+            updateTrackDisplay();
+
+            // ---- 工具函数 ----
             function formatTime(sec) {
                 if (!sec || isNaN(sec)) return '0:00';
                 var m = Math.floor(sec / 60);
@@ -868,7 +892,7 @@
             function updateTrackDisplay() {
                 var name = currentIndex >= 0 ? playlist[currentIndex].name : '未选择音乐';
                 trackName.textContent = name;
-                miniTrackName.textContent = currentIndex >= 0 ? name : '点击添加音乐';
+                miniTrackName.textContent = currentIndex >= 0 ? name : '点击播放音乐';
             }
 
             function updatePlayButtons() {
@@ -877,6 +901,18 @@
                 miniPlayBtn.textContent = icon;
             }
 
+            function updateModeBtn() {
+                var mode = playModes[currentModeIndex];
+                modeBtn.textContent = playModeLabels[mode];
+                modeBtn.title = '播放模式：' + playModeTitles[mode];
+                if (mode === 'single') {
+                    modeBtn.classList.add('active');
+                } else {
+                    modeBtn.classList.remove('active');
+                }
+            }
+
+            // ---- 播放列表渲染 ----
             function renderPlaylist() {
                 playlistEl.innerHTML = '';
                 if (playlist.length === 0) {
@@ -886,8 +922,10 @@
                 playlist.forEach(function(track, i) {
                     var item = document.createElement('div');
                     item.className = 'player-playlist-item' + (i === currentIndex ? ' active' : '');
+                    var sourceTag = track.isLocal ? '' : '<span class="item-source">☁</span>';
                     item.innerHTML = '<span class="item-index">' + (i + 1) + '</span>' +
                         '<span class="item-name">' + track.name + '</span>' +
+                        sourceTag +
                         '<span class="item-remove" data-index="' + i + '">×</span>';
                     item.addEventListener('click', function(e) {
                         if (e.target.classList.contains('item-remove')) {
@@ -900,11 +938,12 @@
                 });
             }
 
+            // ---- 播放控制 ----
             function playTrack(index) {
                 if (index < 0 || index >= playlist.length) return;
                 currentIndex = index;
                 audio.src = playlist[index].url;
-                audio.play();
+                audio.play().catch(function() {});
                 isPlaying = true;
                 updatePlayButtons();
                 updateTrackDisplay();
@@ -924,14 +963,44 @@
                     audio.pause();
                     isPlaying = false;
                 } else {
-                    audio.play();
+                    audio.play().catch(function() {});
                     isPlaying = true;
                 }
                 updatePlayButtons();
             }
 
+            // 获取下一首索引（根据播放模式）
+            function getNextIndex() {
+                var mode = playModes[currentModeIndex];
+                if (mode === 'single') return currentIndex;
+                if (mode === 'shuffle') {
+                    if (playlist.length <= 1) return 0;
+                    var next;
+                    do { next = Math.floor(Math.random() * playlist.length); } while (next === currentIndex);
+                    return next;
+                }
+                return (currentIndex + 1) % playlist.length;
+            }
+
+            // 获取上一首索引
+            function getPrevIndex() {
+                var mode = playModes[currentModeIndex];
+                if (mode === 'single') return currentIndex;
+                if (mode === 'shuffle') {
+                    if (playlist.length <= 1) return 0;
+                    var prev;
+                    do { prev = Math.floor(Math.random() * playlist.length); } while (prev === currentIndex);
+                    return prev;
+                }
+                return (currentIndex - 1 + playlist.length) % playlist.length;
+            }
+
+            // 删除曲目
             function removeTrack(index) {
-                URL.revokeObjectURL(playlist[index].url);
+                // 仓库音乐标记为 isLocal=false，也可以删除（仅从列表移除，不删除文件）
+                if (playlist[index].isLocal) {
+                    URL.revokeObjectURL(playlist[index].url);
+                }
                 playlist.splice(index, 1);
                 if (playlist.length === 0) {
                     audio.pause();
@@ -949,19 +1018,28 @@
                 renderPlaylist();
             }
 
+            // ---- 事件绑定 ----
             miniPlayBtn.addEventListener('click', togglePlay);
             playBtn.addEventListener('click', togglePlay);
 
             prevTrackBtn.addEventListener('click', function() {
                 if (playlist.length === 0) return;
-                playTrack((currentIndex - 1 + playlist.length) % playlist.length);
+                playTrack(getPrevIndex());
             });
 
             nextTrackBtn.addEventListener('click', function() {
                 if (playlist.length === 0) return;
-                playTrack((currentIndex + 1) % playlist.length);
+                playTrack(getNextIndex());
             });
 
+            // 切换播放模式
+            modeBtn.addEventListener('click', function() {
+                currentModeIndex = (currentModeIndex + 1) % playModes.length;
+                localStorage.setItem('playerMode', playModes[currentModeIndex]);
+                updateModeBtn();
+            });
+
+            // 展开/收起播放器
             expandBtn.addEventListener('click', function() {
                 player.classList.remove('minimized');
                 playerMini.style.display = 'none';
@@ -974,9 +1052,8 @@
                 playerExpanded.style.display = 'none';
             });
 
-            uploadBtn.addEventListener('click', function() {
-                fileInput.click();
-            });
+            // 上传本地音乐
+            uploadBtn.addEventListener('click', function() { fileInput.click(); });
 
             fileInput.addEventListener('change', function(e) {
                 var files = e.target.files;
@@ -985,7 +1062,8 @@
                     if (file.type.startsWith('audio/')) {
                         playlist.push({
                             name: file.name.replace(/\.[^.]+$/, ''),
-                            url: URL.createObjectURL(file)
+                            url: URL.createObjectURL(file),
+                            isLocal: true
                         });
                     }
                 }
@@ -996,6 +1074,7 @@
                 }
             });
 
+            // 进度更新
             audio.addEventListener('timeupdate', function() {
                 if (!audio.duration) return;
                 var pct = (audio.currentTime / audio.duration) * 100;
@@ -1007,9 +1086,10 @@
                 totalTimeEl.textContent = formatTime(audio.duration);
             });
 
+            // 播放结束：根据模式切歌
             audio.addEventListener('ended', function() {
-                if (playlist.length > 1) {
-                    playTrack((currentIndex + 1) % playlist.length);
+                if (playlist.length > 1 || playModes[currentModeIndex] === 'single') {
+                    playTrack(getNextIndex());
                 } else {
                     isPlaying = false;
                     updatePlayButtons();
@@ -1018,6 +1098,7 @@
                 }
             });
 
+            // 进度条点击跳转
             progressBar.addEventListener('click', function(e) {
                 if (!audio.duration) return;
                 var rect = progressBar.getBoundingClientRect();
@@ -1025,6 +1106,7 @@
                 audio.currentTime = pct * audio.duration;
             });
 
+            // 音量条点击调节
             volumeBar.addEventListener('click', function(e) {
                 var rect = volumeBar.getBoundingClientRect();
                 var pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
@@ -1035,16 +1117,14 @@
                 localStorage.setItem('playerVolume', pct.toString());
             });
 
+            // 静音切换
             volumeIcon.addEventListener('click', function() {
                 audio.muted = !audio.muted;
-                if (audio.muted) {
-                    volumeFill.style.width = '0%';
-                } else {
-                    volumeFill.style.width = (audio.volume * 100) + '%';
-                }
+                volumeFill.style.width = audio.muted ? '0%' : (audio.volume * 100) + '%';
                 updateVolumeIcon();
             });
 
+            // 初始渲染播放列表
             renderPlaylist();
         })();
     </script>
